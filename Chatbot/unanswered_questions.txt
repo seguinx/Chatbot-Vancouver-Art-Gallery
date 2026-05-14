@@ -1,0 +1,7 @@
+is there parking
+can i bring food
+how do i buy tickets for a friend
+& c:/users/segui/anaconda3/python.exe c:/users/segui/onedrive/documents/summer_projects/chatbot/app.py
+& c:/users/segui/anaconda3/python.exe c:/users/segui/onedrive/documents/summer_projects/chatbot/app.py
+& c:/users/segui/anaconda3/python.exe c:/users/segui/onedrive/documents/summer_projects/chatbot/app.py
+& c:/users/segui/anaconda3/python.exe c:/users/segui/onedrive/documents/summer_projects/chatbot/app.py

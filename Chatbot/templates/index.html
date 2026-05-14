@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vancouver Art Gallery FAQ Assistant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 24px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 10px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 999px;
+            font-size: 13px;
+            color: #d1d5db;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .welcome-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+
+        .welcome-box h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .welcome-box p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .quick-btn {
+            background: #eef2ff;
+            color: #1e3a8a;
+            border: 1px solid #c7d2fe;
+            border-radius: 999px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .quick-btn:hover {
+            background: #dbeafe;
+        }
+
+        #chatbox {
+            height: 360px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            background: #fcfcfd;
+            margin-bottom: 16px;
+        }
+
+        .message {
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .bubble {
+            display: inline-block;
+            padding: 12px 14px;
+            border-radius: 14px;
+            max-width: 80%;
+        }
+
+        .user .bubble {
+            background: #2563eb;
+            color: white;
+        }
+
+        .bot .bubble {
+            background: #f3f4f6;
+            color: #111827;
+            border: 1px solid #e5e7eb;
+        }
+
+        .meta {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .meta a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .meta a:hover {
+            text-decoration: underline;
+        }
+
+        .suggestions {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .suggestions ul {
+            margin: 8px 0 0 18px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+
+        button.send-btn {
+            padding: 14px 18px;
+            background: #111827;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button.send-btn:hover {
+            background: #1f2937;
+        }
+
+        .footer-note {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                margin: 10px auto;
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            button.send-btn {
+                width: 100%;
+            }
+
+            .bubble {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+            <div class="header">
+                <h1>Vancouver Art Gallery FAQ Assistant</h1>
+                <p>
+                    Hello! I can help with Vancouver Art Gallery membership and visitor questions. This is a prototype demo, so for now I’m designed to help with membership and visitor questions only.
+                </p>
+                <div class="status">Prototype demo • Official source links included</div>
+            </div>
+
+            <div class="content">
+                <div class="welcome-box">
+                    <h2>Welcome 👋</h2>
+                    <p>
+                        You can ask about membership, admission, discounts, free entry, or gallery visit details.
+                    </p>
+                    <p>Try one of these questions:</p>
+
+                    <div class="quick-questions">
+                        <button class="quick-btn" onclick="fillQuestion('How do I renew my membership?')">How do I renew my membership?</button>
+                        <button class="quick-btn" onclick="fillQuestion('Is admission free for children?')">Is admission free for children?</button>
+                        <button class="quick-btn" onclick="fillQuestion('Is the gallery cashless?')">Is the gallery cashless?</button>
+                        <button class="quick-btn" onclick="fillQuestion('What are the benefits of becoming a member?')">What are the benefits of becoming a member?</button>
+                    </div>
+                </div>
+
+                <div id="chatbox">
+                    <div class="message bot">
+                        <div class="bubble">
+                            Hello! I can help with Vancouver Art Gallery membership and visitor questions.
+                        </div>
+                        <div class="meta">Ask a question to begin.</div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <input type="text" id="userInput" placeholder="Ask a question..." onkeydown="handleKey(event)">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+
+                <div class="footer-note">
+                    This is a prototype demo built for public FAQ assistance. Always verify important details on the official website.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fillQuestion(text) {
+            document.getElementById("userInput").value = text;
+            sendMessage();
+        }
+
+        function handleKey(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("userInput");
+            const chatbox = document.getElementById("chatbox");
+            const message = input.value.trim();
+
+            if (!message) {
+                alert("Please enter a question.");
+                return;
+            }
+
+            chatbox.innerHTML += `
+                <div class="message user">
+                    <div class="bubble">${message}</div>
+                </div>
+            `;
+
+            input.value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                console.log("Match score:", data.score);
+
+                let botHtml = `
+                    <div class="message bot">
+                        <div class="bubble">${data.answer}</div>
+                        <div class="meta">
+                            Source:
+                            <a href="${data.source}" target="_blank" rel="noopener noreferrer">
+                                Read official Vancouver Art Gallery source
+                            </a>
+                        </div>
+                `;
+
+                if (data.suggestions && data.suggestions.length > 0) {
+                    botHtml += `
+                        <div class="suggestions">
+                            <strong>Suggested questions:</strong>
+                            <ul>
+                    `;
+                    data.suggestions.forEach(item => {
+                        botHtml += `<li>${item}</li>`;
+                    });
+                    botHtml += `</ul></div>`;
+                }
+
+                botHtml += `</div>`;
+
+                chatbox.innerHTML += botHtml;
+                chatbox.scrollTop = chatbox.scrollHeight;
+
+            } catch (error) {
+                chatbox.innerHTML += `
+                    <div class="message bot">
+                        <div class="bubble">Sorry, the server did not respond.</div>
+                        <div class="meta">Please try again.</div>
+                    </div>
+                `;
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
